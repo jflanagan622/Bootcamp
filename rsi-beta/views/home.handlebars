@@ -1,0 +1,65 @@
+<style>table {
+  border: 1px solid #666;   
+    width: 100%;
+}
+th {
+  background: #f8f8f8; 
+  font-weight: bold;    
+    padding: 2px;
+}
+</style>
+
+
+<h3>Richwood Scentific</h3>
+<table>
+<thead>
+    <th> Product Name </th>
+    <th> Unit Price </th>
+    
+</thead>
+
+<tbody id="products">
+
+<tr>
+    <td> [] [] </td>
+    <td> [] [] </td>
+    
+</tr>
+
+</tbody>
+</table>
+ 
+<script type="text/javascript">
+
+$.ajax({
+    url: "http://localhost:3000/api/products",
+    dataType: "json",
+    type: "GET",
+    data: {},
+    success: function (result) {
+        console.log(result);
+
+        // Insert a table with products here
+      data = JSON.parse(data);
+ $table.empty(); // empty is more explicit
+ // iterate over the data
+ data.forEach(function (products) {
+   // create a new table row and append it
+   var $row = $('<tr>')
+     .appendTo($table);
+   // iterate over the products
+   products.forEach(function (unit_price) {
+     // create the cell, set the text, 
+     // and append it to the row
+     $('<td>')
+       .text(unit_price)
+       .appendTo($row);
+   });
+
+ });  
+   
+    }
+ 
+});
+
+</script>
