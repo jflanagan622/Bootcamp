@@ -85,7 +85,10 @@ app.get('/', function(req,res) {
 	// Send the construction page
 	res.render('home');
 });
-
+app.get('/pretty', function(req,res) {
+	// Send the construction page
+	res.render('homepretty');
+});
 // Stub of login page
 app.get("/login", function (req, res) {
 	// Send the login page
@@ -103,6 +106,12 @@ app.post("/login", function (req, res) {
 app.get("/addproduct", function (req, res) {
 	// Send the Add Product page
     res.render('addproduct-beta');
+});
+app.get("/admin", function (req, res) {
+	// Send the Admin page
+	// Note we are also changing from the main layout
+	// to the Admin one; not just the body
+    res.render('adminbody', {layout: 'adminmain'});
 });
 
 
