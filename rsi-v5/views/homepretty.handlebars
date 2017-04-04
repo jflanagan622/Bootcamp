@@ -1,0 +1,34 @@
+
+<!-- Example using bootstrap table -->
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.css">
+<!-- Latest compiled and minified JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.11.1/bootstrap-table.min.js"></script>
+
+<h3>Richwood Scentific</h3>
+
+<table width="200px" border="1" id="ProductsTable">
+    <tr>
+        <td>Product</td>
+        <td>Price</td>
+    </tr>
+    <!-- append happens here -->
+</table>
+
+<script type="text/javascript">
+$.ajax({
+    url: "http://localhost:3000/api/products",
+    dataType: "json",
+    type: "GET",
+    data: {},
+    success: function (result) {
+        console.log(result);
+        // We iterate through the array of records we get back from the database API call
+        // If you drill down in the console, you will find the array at result.data.products
+        $.each(result.data.products, function (index, product) {
+            $('#ProductsTable').append('<tr><td>' + product.product_name + '</td><td>' + product.unit_price + '</td></tr>');
+        })
+    }
+});
+</script>
