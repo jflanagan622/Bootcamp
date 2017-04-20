@@ -1,0 +1,130 @@
+ <!-- Scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js" charset="utf-8"></script>
+    <script src="../assets/web/js/app.js" charset="utf-8"></script>
+    <script src="../assets/js/jquery.min.js"></script>
+
+<script type="text/javascript">
+</script>
+<script type="text/javascript">
+</script>
+
+		<nav class="navbar">
+			<div class="container">
+				<a class="navbar-brand" href="/">Richwood Scentific</a>
+				<div class="navbar-right">
+					<div class="container minicart"></div>
+				</div>
+			</div>
+		</nav>
+		
+		<div class="container-fluid breadcrumbBox text-center">
+			<ol class="breadcrumb">
+				<li><a href="/">Continue Shopping</a></li>
+                <li><a href="/cart" >View Cart</a></li>
+				<li class="active"><a href="/paymentshippingform">Shipping and Payment</a></li>
+				<li><a href="#">Check Out</a></li>
+			</ol>
+		</div>
+        <div class="container text-left">
+
+			<div class="col-md-5 col-sm-12">
+				 
+                <form action="http://localhost:3000/api/customers" method="POST" id="form">
+                
+                        Shipping Information:
+                    
+                     
+                            <div class="form-group">
+                                <label for="inputFirstName">First Name</label>
+                                <input type="text" class="form-control" id="inputFirstName" name="first_name" placeholder="Enter first name">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="inputLastName">Last Name</label>
+                                <input type="text" class="form-control" id="inputLastName" name="last_name" placeholder="Enter last name">
+                            </div>
+                     
+                            <div class="form-group">
+                                <label for="inputShippingAddress">Address</label>
+                                <input class="form-control" type="text" id="inputShippingAddress" name="shipping_address" placeholder="Enter Shipping Address">
+                            </div>
+                    
+                            <div class="form-group">
+                                <label for="inputShippingCity">City</label>
+                                <input class="form-control" type="text" id="inputShippingCity" name="shipping_city" placeholder="Enter City">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="inputShippingState">State</label>
+                                <input class="form-control" type="text" id="inputShippingState" name="shipping_state" placeholder="Enter State">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="inputShippingZip">Zip Code</label>
+                                <input class="form-control" type="text" id="inputShippingZip" name="shipping_zip" placeholder="Enter Zip Code">
+                            </div>
+                
+                            <div class="form-group">
+                                <label for="inputEmailAddress">Email Address</label>
+                                <input type="email" class="form-control" id="inputEmailAddress" name="email_address" placeholder="Enter Email Address">
+                            </div>
+                     
+                            <div class="form-group">
+                                <label for="inputPhoneNumber">Phone Number</label>
+                                <input class="form-control" type="text" id="inputPhoneNumber" name="phone_number" placeholder="Enter Phone Number">
+                            </div>
+                
+                            <button type="submit" name="submitButton" value="save" class="btn btn-primary">Paypal goes here, Norvill.</button>
+                </form>
+            </div>
+        </div>
+
+<script type="text/javascript">
+
+    $( document ).ready(function() {
+
+       
+        // Process the form
+        $('form').submit(function(event) {
+
+            // stop the form from submitting the normal way and refreshing the page
+            event.preventDefault();
+
+            // get the form data
+            // there are many ways to get this data using jQuery (you can use the class or id also)
+            var formData = {
+                'first_name'            : $('input[name=first_name]').val(),
+                'last_name'             : $('input[name=last_name]').val(),
+                'shipping_address'      : $('input[address=shipping_address]').val(),
+                'shipping_city'         : $('input[address=shipping_city]').val(),
+                'shipping_state'        : $('input[address=shipping_state]').val(),
+                'shipping_zipcode'      : $('input[address=shipping_zipcode]').val(),
+                'email'                 : $('input[email=email]').val(),
+                'phone'                 : $('input[phone=phone]').val()
+                
+            };
+
+            // process the form
+            $.ajax({
+                type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                url         : 'http://localhost:3000/api/customers', // the url where we want to POST
+                data        : formData, // our data object
+                dataType    : 'json', // what type of data do we expect back from the server
+                encode      : true
+            })
+                // using the done promise callback
+                .done(function(data) {
+                    // Success, so clear
+                    $('#form').trigger("reset");
+                    // Show success alert
+                    swal("Success!", data.data.customer + " was added.", "success");
+                })
+                .fail(function(data){
+                    // In a fail, we need to look inside the responseJSON object for our
+                    // APIs error message
+                    swal("Oops...", data.responseJSON.data.error, "error");
+                });
+                
+        });
+
+    });
